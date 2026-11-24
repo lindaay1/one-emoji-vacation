@@ -8,6 +8,10 @@ nothing else. This program holds the approved emoji, checks it
 against the gate (UTF-8 text, 1 to 8 characters, one emoji, not only
 whitespace), writes it to entry.txt, reads the file back and proves
 the bytes on disk are the emoji it approved.
+
+Revision (second message): added --show, which prints the approved
+emoji with its codepoint, Unicode category and length, without
+writing anything, so the entry can be inspected before a run.
 """
 
 import sys
@@ -41,6 +45,10 @@ def emit(mark, path="entry.txt"):
 
 
 def main(argv):
+    if len(argv) > 1 and argv[1] == "--show":
+        print("%s U+%04X category %s, %d character"
+              % (EMOJI, ord(EMOJI), unicodedata.category(EMOJI), len(EMOJI)))
+        return 0
     validate(EMOJI)
     emit(EMOJI)
     print("wrote entry.txt: %s, %d character, %d bytes"
