@@ -30,6 +30,8 @@ def validate(mark):
         raise ValueError("entry is only whitespace")
     if len(mark) != 1:
         raise ValueError("entry is %d characters, not one emoji" % len(mark))
+    if mark != mark.strip():
+        raise ValueError("entry has leading or trailing whitespace")
     if not unicodedata.category(mark).startswith("S"):
         raise ValueError("entry is not a symbol")
     if "\n" in mark or "\r" in mark:
